@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Skyblock links collection">
+  <meta name="author" content="aphased">
+
+  <title>Skyblock links</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <style>
+    details[open] summary {
+      font-weight: bold;
+    }
+  </style>
+
+  <!-- TODO: a runthrough of the https://realfavicongenerator.net? -->
+</head>
+
+<body>
+  <h1>Skyblock-related links!</h1>
+
+  <p>Caveat:
+    Currently where applicable (stats/profile viewer sites), these links lead
+    to my (<code>aphased</code>) own profile page by default. I should probably
+    add some JavaScript functionality that lets you enter a name once in a text
+    field here so it can then lead to the specific user page directly…
+  </p>
+
+  <details open id="forums">
+    <summary>Forums links: Update patch note pages</summary>
+    <ul>
+      <li><a href="https://hypixel.net/forums/skyblock-patch-notes.158/">SkyBlock Patch Notes</a> (Hypixel Forums)</li>
+      <li><a href="https://hypixel.net/forums/news-and-announcements.4/">News and Announcements</a> (Hypixel Forums)
+      </li>
+      <li><a href="https://hypixel.net/skyblock-alpha/">SkyBlock Alpha Network</a> (Hypixel Forums)</li>
+    </ul>
+  </details>
+
+  <details open id="pv">
+    <summary>Profile viewers, player stats etc.</summary>
+    <ul>
+      <li><a href="https://de.namemc.com/profile/aphased.1">Minecraft Profile viewer (NameMC)</a></li>
+      <li><a href="https://nadeshiko.io/player/aphased/network">Hypixel Network stats (nadeshiko.io)</a></li>
+      <li><a href="https://plancke.io/hypixel/player/stats/aphased">Hypixel Network stats (Plancke)</a></li>
+      <li><a href="https://hypixel.net/player/aphased">Hypixel Network stats (Forums)</a></li>
+      <li><a href="https://sky.shiiyu.moe/stats/aphased/Cucumber">Skyblock Profile stats (SkyCrypt)</a></li>
+      <li><a href="https://stats.tem.cx/player/aphased/Cucumber">Skyblock Profile stats (stats.tem.cx)</a></li>
+      <li><a href="https://elitebot.dev/@aphased/Cucumber aphased">Farming Weight &amp; Stats (elitebot)</a></li>
+      <li><a href="https://soopy.dev/stathistory">Soopy Stat History Tracker</a></li>
+      <li><a href="https://soopy.dev/networth">Soopy Player Leaderboard</a> (networth and level)</li>
+      <!-- (currently leads to my/"ElementsMaestro's guild &ndash; TheElements" -- not _technically_ aphased's…) -->
+      <li><a href="https://plancke.io/hypixel/guild/player/ElementsMaestro">Plancke Hypixel Guild viewer</a></li>
+      <li><s><a href="https://guildleaderboard.com/guild/TheElements">Guild Leaderboard</a></s> (now defunct &#x1F641;)
+      </li>
+    </ul>
+  </details>
+
+  <details open id="wiki">
+    <summary>Wikis, rules, and other random sites</summary>
+    <ul>
+      <li><a href="https://hypixel.net/rules">Hypixel rules (has links to all categories)</a></li>
+      <li><a href="https://sbmw.ca/mod-lists/skyblock-mod-list/">SkyBlock Mod List</a></li>
+      <li><a href="https://status.hypixel.net/history">Hypixel Status (incident history)</a></li>
+    </ul>
+  </details>
+
+  <details open id="utils">
+    <summary>Other tools/utils</summary>
+    <ul>
+      <li><a href="https://stats.tem.cx/leaderboards">Skyblock leaderboards</a></li>
+      <li><a href="https://astanik.dev/seafoam/">Seafoam - CH Route Generator</a></li>
+      <li><a href="https://hypixel.inventivetalent.org/skyblock-newyear-timer/">New Year's Event Timer</a></li>
+      <li><a href="https://account.xbox.com/en-us/Settings?rtc=1&activetab=main:privilegetab">Microsoft Disable
+          Multiplayer</a> (in case of ever getting ratted)</li>
+    </ul>
+  </details>
+
+  <details open id="bingo">
+    <summary>Bingo!</summary>
+    <ul>
+      <li><a href="https://wiki.hypixel.net/Bingo">Gamemode explanation</a> on
+        the Hypixel wiki</li>
+      <li><a href="https://hypixel.net/members/indigopolecat.3270837/#recent-content">
+          IndigoPolecat on the Hypixel Forums</a>
+        (longtime Bingo Guides author and poster)</li>
+      <li><a href="https://modrinth.com/resourcepack/bingo+">Bingo+ texture pack
+        </a> (rich icon textures in your Bingo card)</li>
+    </ul>
+  </details>
+
+  <div style="text-align: center;">
+    <small>Source code available <a href="https://github.com/aphased/skyblock-links">here</a>.
+      <br>Please let me know if any of the links are broken!</small>
+  </div>
+
+  <script>
+    // TODO: not sure if I want to force all links to open in a new tab… So
+    // instead of changing them all individually, I'll keep it at this for now.
+    document.querySelectorAll('a[href]').forEach(link => {
+      link.setAttribute('target', '_blank');
+    });
+  </script>
+  <script>
+    // Lead to specific sections by sharing a link in the style of <base url>/#<div id>
+    // There is no check performed on the validity of a given section hash
+    // (details tag id) – yet? we'll see…
+    window.onload = function () {
+      const hash = window.location.hash;
+      const detailsTags = document.querySelectorAll('details');
+
+      if (hash) {
+        detailsTags.forEach(details => {
+          details.open = false;
+        });
+
+        const selected = document.getElementById(hash.slice(1));
+        selected.open = true;
+        selected.scrollIntoView({behavior: 'smooth'});
+      }
+    };
+  </script>
+</body>
+
+</html>
