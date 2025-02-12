@@ -61,6 +61,7 @@
   <details open id="wiki">
     <summary>Wikis, rules, and other random sites</summary>
     <ul>
+      <li><strong><a href="https://wiki.hypixel.net/">Hypixel wiki</a></strong></li>
       <li><a href="https://hypixel.net/rules">Hypixel rules (has links to all categories)</a></li>
       <li><a href="https://sbmw.ca/mod-lists/skyblock-mod-list/">SkyBlock Mod List</a></li>
       <li><a href="https://status.hypixel.net/history">Hypixel Status (incident history)</a></li>
@@ -105,8 +106,6 @@
   </script>
   <script>
     // Lead to specific sections by sharing a link in the style of <base url>/#<div id>
-    // There is no check performed on the validity of a given section hash
-    // (details tag id) – yet? we'll see…
     window.onload = function () {
       const hash = window.location.hash;
       const detailsTags = document.querySelectorAll('details');
@@ -116,6 +115,8 @@
           details.open = false;
         });
 
+        // TODO: this here could potentially use a check on the validity of a
+        // given section hash (details tag id)
         const selected = document.getElementById(hash.slice(1));
         selected.open = true;
         selected.scrollIntoView({behavior: 'smooth'});
