@@ -9,6 +9,8 @@
 
   <title>Skyblock links</title>
 
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
   <style>
     details[open] summary {
@@ -19,15 +21,19 @@
   <!-- TODO: a runthrough of the https://realfavicongenerator.net? -->
 </head>
 
-<body>
+<body x-data="{ name: 'aphased' }">
   <h1>Skyblock-related links!</h1>
 
-  <p>Caveat:
-    Currently where applicable (stats/profile viewer sites), these links lead
-    to my (<code>aphased</code>) own profile page by default. I should probably
-    add some JavaScript functionality that lets you enter a name once in a text
-    field here so it can then lead to the specific user page directly…
+  <p>
+    Caveat: Currently where applicable (stats pages/profile viewers), these
+    links lead to my (<code>aphased</code>) own profile page by default.
+    Enter a name below to customize.<br>
+    (I probably need to add a cookie to the site for this to be good)
   </p>
+  <input type="text" x-model="name" placeholder="Enter player name" />
+  <button @click="$refs.playerName.innerText = name">Update Links</button>
+
+  <div x-ref="playerName" style="display: none;"></div>
 
   <details open id="forums">
     <summary>Forums links: Update patch note pages</summary>
@@ -42,17 +48,16 @@
   <details open id="pv">
     <summary>Profile viewers, player stats etc.</summary>
     <ul>
-      <li><a href="https://de.namemc.com/profile/aphased.1">Minecraft Profile viewer (NameMC)</a></li>
-      <li><a href="https://nadeshiko.io/player/aphased/network">Hypixel Network stats (nadeshiko.io)</a></li>
-      <li><a href="https://plancke.io/hypixel/player/stats/aphased">Hypixel Network stats (Plancke)</a></li>
-      <li><a href="https://hypixel.net/player/aphased">Hypixel Network stats (Forums)</a></li>
-      <li><a href="https://sky.shiiyu.moe/stats/aphased/Cucumber">Skyblock Profile stats (SkyCrypt)</a></li>
-      <li><a href="https://stats.tem.cx/player/aphased/Cucumber">Skyblock Profile stats (stats.tem.cx)</a></li>
-      <li><a href="https://elitebot.dev/@aphased/Cucumber aphased">Farming Weight &amp; Stats (elitebot)</a></li>
+      <li><a :href="'https://de.namemc.com/profile/' + name">Minecraft Profile viewer (NameMC)</a></li>
+      <li><a :href="'https://nadeshiko.io/player/' + name + '/network'">Hypixel Network stats (nadeshiko.io)</a></li>
+      <li><a :href="'https://plancke.io/hypixel/player/stats/' + name">Hypixel Network stats (Plancke)</a></li>
+      <li><a :href="'https://hypixel.net/player/' + name">Hypixel Network stats (Forums)</a></li>
+      <li><a :href="'https://sky.shiiyu.moe/stats/' + name">Skyblock Profile stats (SkyCrypt)</a></li>
+      <li><a :href="'https://stats.tem.cx/player/' + name">Skyblock Profile stats (stats.tem.cx)</a></li>
+      <li><a :href="'https://elitebot.dev/@' + name">Farming Weight & Stats (elitebot)</a></li>
       <li><a href="https://soopy.dev/stathistory">Soopy Stat History Tracker</a></li>
       <li><a href="https://soopy.dev/networth">Soopy Player Leaderboard</a> (networth and level)</li>
-      <!-- (currently leads to my/"ElementsMaestro's guild &ndash; TheElements" -- not _technically_ aphased's…) -->
-      <li><a href="https://plancke.io/hypixel/guild/player/ElementsMaestro">Plancke Hypixel Guild viewer</a></li>
+      <li><a :href="'https://plancke.io/hypixel/guild/player/' + name">Plancke Hypixel Guild viewer</a></li>
       <li><s><a href="https://guildleaderboard.com/guild/TheElements">Guild Leaderboard</a></s> (now defunct &#x1F641;)
       </li>
     </ul>
@@ -92,9 +97,12 @@
           Forge mod</a> for in-game potion splash notifications</li>
       <li><a href="https://modrinth.com/resourcepack/bingo+">Bingo+ texture pack
         </a> which adds rich icon textures in your Bingo card</li>
-      <li><a href="https://realooffyy.github.io/BingoPlusModule/">Bingo+
+      <li><a href="https://realooffyy.github.io/BingoPlusModule/">BingoPlus
           ChatTriggers module</a> with a bunch of useful features (quick-install
         using <code>/ct import BingoPlus</code> in-game)</li>
+      <li><a href="https://chattriggers.com/modules/v/BingoHelper">BingoHelper
+          ChatTriggers module</a> with a bunch of useful features (<code>/ct
+          import bingohelper</code> in-game)</li>
     </ul>
   </details>
 
@@ -106,6 +114,8 @@
   <script>
     // TODO: not sure if I want to force all links to open in a new tab… So
     // instead of changing them all individually, I'll keep it at this for now.
+    // TODO: this does not seem to apply anymore to the dynamic :href alpine.js
+    // bindings & idk how to fix it
     document.querySelectorAll('a[href]').forEach(link => {
       link.setAttribute('target', '_blank');
     });
