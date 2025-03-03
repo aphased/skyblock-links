@@ -21,17 +21,37 @@
   <!-- TODO: a runthrough of the https://realfavicongenerator.net? -->
 </head>
 
-<body x-data="{ name: 'aphased' }">
+<!-- When using this site locally, replace the body tag below with something
+like the following line, since most browsers don't allow the setting and getting
+of cookies from a file:// style url: -->
+<!-- <body x-data="{ name: 'yourDefaultPlayerName' }"> -->
+
+<!-- TODO: show the above note to all users (and not just ones reading the
+source) with a check similar to this… and/or replace the HTML/Alpine logic
+myself from the start?:
+  <script>
+    if (window.location.protocol === 'file:') {
+      console.log('The site is running from a local file (file://)');
+    } else if (/^https?:\/\//.test(window.location.protocol)) {
+      console.log('The site is served over the web (http:// or https://)');
+    }
+  </script>
+-->
+
+<!-- TODO: add something like a red outline to the input box if the user tries
+to click any of the interactive pv links before setting a name (and make the
+link targets non-functional…), since the default player name is empty now [iff
+no prior name cookie has been set]: -->
+
+<body x-data="{ name: (getCookie('preferredUsername') || '') }">
   <h1>Skyblock-related links!</h1>
 
   <p>
-    Caveat: Currently where applicable (stats pages/profile viewers), these
-    links lead to my (<code>aphased</code>) own profile page by default.
-    Enter a name below to customize.<br>
-    (I probably need to add a cookie to the site for this to be good)
+    Enter a name below to enable the links to profile viewers/stats pages in the second section.<br>
+    (You will only need to do this once if you want to pv yourself)
   </p>
   <input type="text" x-model="name" placeholder="Enter player name" />
-  <button @click="$refs.playerName.innerText = name">Update Links</button>
+  <button @click="$refs.playerName.innerText = name; setNamePreferenceCookie(name)">Update Links</button>
 
   <div x-ref="playerName" style="display: none;"></div>
 
@@ -131,13 +151,35 @@
           details.open = false;
         });
 
-        // TODO: this here could potentially use a check on the validity of a
-        // given section hash (details tag id)
+        /* TODO: this here could potentially use a check on the validity of
+        a given section hash ('details' tag id). If such a check is added, an
+        explicit mention of "#overview" as an "all sections start closed" mode
+        should be added back in so as to not regress existing functionality. */
         const selected = document.getElementById(hash.slice(1));
         selected.open = true;
         selected.scrollIntoView({behavior: 'smooth'});
       }
     };
+  </script>
+  <script>
+    /* TODO: this value is accessed as a literal in the body tag's x-data
+    component and needs to be kept up to date there manually */
+    const cookieName = "preferredUsername";
+
+    /* Alpine will send the new player name to this function upon button click
+    (that also updates the interactive links), in which the following cookie is
+    set to store the name across site openings/uses */
+    function setNamePreferenceCookie(playerName) {
+      // console.log(`setting cookie with new value '${playerName}'`)
+      document.cookie = `${cookieName}=${playerName}; max-age=${60 * 60 * 24 * 365}; path=/; `;
+    }
+
+    // GPT ahh function, should work though (briefly tried-to-understand-and-tested)
+    function getCookie(cookieName) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${cookieName}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
   </script>
 </body>
 
