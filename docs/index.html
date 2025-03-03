@@ -48,7 +48,8 @@ no prior name cookie has been set]: -->
 
   <p>
     Enter a name below to enable the links to profile viewers/stats pages in the second section.<br>
-    (You will only need to do this once if you want to pv yourself)
+    (You will only need to do this once per browser if you want to pv yourself)<br>
+    If it doesn't work, please enable cookies for this site.
   </p>
   <input type="text" x-model="name" placeholder="Enter player name" />
   <button @click="$refs.playerName.innerText = name; setNamePreferenceCookie(name)">Update Links</button>
