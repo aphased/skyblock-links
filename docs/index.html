@@ -16,6 +16,15 @@
     details[open] summary {
       font-weight: bold;
     }
+
+    .invalid-box {
+      border: 2px solid red;
+    }
+
+    .invalid-link {
+      /* "grayed out" red: */
+      color: #ffcccc;
+    }
   </style>
 
   <!-- TODO: a runthrough of the https://realfavicongenerator.net? -->
@@ -38,12 +47,7 @@ myself from the start?:
   </script>
 -->
 
-<!-- TODO: add something like a red outline to the input box if the user tries
-to click any of the interactive pv links before setting a name (and make the
-link targets non-functional…), since the default player name is empty now [iff
-no prior name cookie has been set]: -->
-
-<body x-data="{ name: (getCookie('preferredUsername') || '') }">
+<body x-data="linkData()">
   <h1>Skyblock-related links!</h1>
 
   <p>
@@ -51,9 +55,9 @@ no prior name cookie has been set]: -->
     (You will only need to do this once per browser if you want to pv yourself)<br>
     If it doesn't work, please enable cookies for this site.
   </p>
-  <input type="text" x-model="name" placeholder="Enter player name" />
-  <button @click="$refs.playerName.innerText = name; setNamePreferenceCookie(name)">Update Links</button>
-
+  <input type="text" x-model="name" :class="{ 'invalid-box': !isNameSet && name === '' }"
+    placeholder="Enter player name" />
+  <button @click="updateLinks">Update Links</button>
   <div x-ref="playerName" style="display: none;"></div>
 
   <details open id="forums">
@@ -69,18 +73,17 @@ no prior name cookie has been set]: -->
   <details open id="pv">
     <summary>Profile viewers, player stats etc.</summary>
     <ul>
-      <li><a :href="'https://de.namemc.com/profile/' + name">Minecraft Profile viewer (NameMC)</a></li>
-      <li><a :href="'https://nadeshiko.io/player/' + name + '/network'">Hypixel Network stats (nadeshiko.io)</a></li>
-      <li><a :href="'https://plancke.io/hypixel/player/stats/' + name">Hypixel Network stats (Plancke)</a></li>
-      <li><a :href="'https://hypixel.net/player/' + name">Hypixel Network stats (Forums)</a></li>
-      <li><a :href="'https://sky.shiiyu.moe/stats/' + name">Skyblock Profile stats (SkyCrypt)</a></li>
-      <li><a :href="'https://stats.tem.cx/player/' + name">Skyblock Profile stats (stats.tem.cx)</a></li>
-      <li><a :href="'https://elitebot.dev/@' + name">Farming Weight & Stats (elitebot)</a></li>
+      <template x-for="(link, index) in links" :key="index">
+        <li>
+          <a :href="isNameSet && name !== '' ? link.url + name : '#'"
+            :class="{ 'invalid-link': !isNameSet && name === '' }" <span x-text="link.name"></span>
+          </a>
+        </li>
+      </template>
       <li><a href="https://soopy.dev/stathistory">Soopy Stat History Tracker</a></li>
       <li><a href="https://soopy.dev/networth">Soopy Player Leaderboard</a> (networth and level)</li>
-      <li><a :href="'https://plancke.io/hypixel/guild/player/' + name">Plancke Hypixel Guild viewer</a></li>
-      <li><s><a href="https://guildleaderboard.com/guild/TheElements">Guild Leaderboard</a></s> (now defunct &#x1F641;)
-      </li>
+      <li><s><a href="https://guildleaderboard.com/guild/TheElements">Guild Leaderboard</a></s>
+        (now defunct &#x1F641;)</li>
     </ul>
   </details>
 
@@ -181,6 +184,35 @@ no prior name cookie has been set]: -->
       const parts = value.split(`; ${cookieName}=`);
       if (parts.length === 2) return parts.pop().split(';').shift();
     }
+  </script>
+  <script>
+    document.addEventListener('alpine:init', () => {
+      // For "pv" section, where a player name is added to the base url/site link
+      Alpine.data('linkData', () => ({
+        name: getCookie('preferredUsername') || '',
+        isNameSet: false,
+        links: [
+          {name: 'Minecraft Profile viewer (NameMC)', url: 'https://de.namemc.com/profile/'},
+          /* For the record, this is weasling around an issue a bit. The actual
+          nadeshiko url has /player/<ign>/network as its path, and thankfully
+          the link corrects itself; but ideally, our logic here would be able to
+          insert the name at the correct position, and not just append it to an
+          existing string… */
+          {name: 'Hypixel Network stats (nadeshiko.io)', url: 'https://nadeshiko.io/player/'},
+          {name: 'Hypixel Network stats (Plancke)', url: 'https://plancke.io/hypixel/player/stats/'},
+          {name: 'Hypixel Network stats (Forums)', url: 'https://hypixel.net/player/'},
+          {name: 'Skyblock Profile stats (SkyCrypt)', url: 'https://sky.shiiyu.moe/stats/'},
+          {name: 'Skyblock Profile stats (stats.tem.cx)', url: 'https://stats.tem.cx/player/'},
+          {name: 'Farming Weight & Stats (elitebot)', url: 'https://elitebot.dev/@'},
+          {name: 'Plancke Hypixel Guild viewer', url: 'https://plancke.io/hypixel/guild/player/'}
+        ],
+        updateLinks() {
+          this.isNameSet = this.name !== '';
+          this.$refs.playerName.innerText = this.name;
+          setNamePreferenceCookie(this.name);
+        }
+      }));
+    });
   </script>
 </body>
 
