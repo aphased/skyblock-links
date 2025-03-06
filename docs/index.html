@@ -63,10 +63,12 @@ myself from the start?:
   <details open id="forums">
     <summary>Forums links: Update patch note pages</summary>
     <ul>
-      <li><a href="https://hypixel.net/forums/skyblock-patch-notes.158/">SkyBlock Patch Notes</a> (Hypixel Forums)</li>
-      <li><a href="https://hypixel.net/forums/news-and-announcements.4/">News and Announcements</a> (Hypixel Forums)
-      </li>
-      <li><a href="https://hypixel.net/skyblock-alpha/">SkyBlock Alpha Network</a> (Hypixel Forums)</li>
+      <li><a href="https://hypixel.net/forums/skyblock-patch-notes.158/">SkyBlock Patch Notes</a>
+        (Hypixel Forums)</li>
+      <li><a href="https://hypixel.net/forums/news-and-announcements.4/">News and Announcements</a>
+        (Hypixel Forums)</li>
+      <li><a href="https://hypixel.net/skyblock-alpha/">SkyBlock Alpha Network</a>
+        (Hypixel Forums)</li>
     </ul>
   </details>
 
@@ -156,9 +158,10 @@ myself from the start?:
         });
 
         /* TODO: this here could potentially use a check on the validity of
-        a given section hash ('details' tag id). If such a check is added, an
-        explicit mention of "#overview" as an "all sections start closed" mode
-        should be added back in so as to not regress existing functionality. */
+        a given section hash ('details' tag id). If such a check is added,
+        an explicit mention of something like "#overview" as an "all sections
+        start closed" mode should be added back in so as to not regress existing
+        functionality. */
         const selected = document.getElementById(hash.slice(1));
         selected.open = true;
         selected.scrollIntoView({behavior: 'smooth'});
@@ -171,14 +174,13 @@ myself from the start?:
     const cookieName = "preferredUsername";
 
     /* Alpine will send the new player name to this function upon button click
-    (that also updates the interactive links), in which the following cookie is
+    (that also updated the interactive links), in which the following cookie is
     set to store the name across site openings/uses */
     function setNamePreferenceCookie(playerName) {
       // console.log(`setting cookie with new value '${playerName}'`)
       document.cookie = `${cookieName}=${playerName}; max-age=${60 * 60 * 24 * 365}; path=/; `;
     }
 
-    // GPT ahh function, should work though (briefly tried-to-understand-and-tested)
     function getCookie(cookieName) {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${cookieName}=`);
