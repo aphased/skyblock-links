@@ -55,7 +55,7 @@ myself from the start?:
     (You will only need to do this once per browser if you want to pv yourself)<br>
     If it doesn't work, please enable cookies for this site.
   </p>
-  <input type="text" x-model="name" :class="{ 'invalid-box': !isNameSet && name === '' }"
+  <input type="text" x-model="name" :class="{ 'invalid-box': !isNameSet && name.trim() === '' }"
     placeholder="Enter player name" />
   <button @click="updateLinks">Update Links</button>
   <div x-ref="playerName" style="display: none;"></div>
@@ -77,8 +77,8 @@ myself from the start?:
     <ul>
       <template x-for="(link, index) in links" :key="index">
         <li>
-          <a :href="isNameSet && name !== '' ? link.url + name : '#'"
-            :class="{ 'invalid-link': !isNameSet && name === '' }" <span x-text="link.name"></span>
+          <a :href="isNameSet && name.trim() !== '' ? link.url + name.trim() : '#'"
+            :class="{ 'invalid-link': !isNameSet && name.trim() === '' }" <span x-text="link.name"></span>
           </a>
         </li>
       </template>
@@ -209,6 +209,8 @@ myself from the start?:
           {name: 'Plancke Hypixel Guild viewer', url: 'https://plancke.io/hypixel/guild/player/'}
         ],
         updateLinks() {
+          this.name = this.name.trim();
+
           this.isNameSet = this.name !== '';
           this.$refs.playerName.innerText = this.name;
           setNamePreferenceCookie(this.name);
