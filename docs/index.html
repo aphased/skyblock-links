@@ -138,13 +138,37 @@ myself from the start?:
   </div>
 
   <script>
-    // TODO: not sure if I want to force all links to open in a new tab… So
-    // instead of changing them all individually, I'll keep it at this for now.
-    // TODO: this does not seem to apply anymore to the dynamic :href alpine.js
-    // bindings & idk how to fix it
+    /* TODO: not sure if I want to force all links to open in a new tab forever…
+    So instead of adapting all anchor tags individually whenever I change my
+    mind, I'll keep it at this easily commented-out automation for now. */
+
     document.querySelectorAll('a[href]').forEach(link => {
       link.setAttribute('target', '_blank');
     });
+
+    /* The whole effort with `applyTarget` that follows instead of only doing
+    the more usual/simpler `document.querySelectorAll('a[href]')` above is
+    needed so as to include dynamic :href alpine.js bindings in the selection.
+    */
+
+    const applyTarget = (node) => {
+      if (node.tagName && node.tagName.toLowerCase() === 'a' && node.hasAttribute('href')) {
+        node.setAttribute('target', '_blank');
+      }
+      if (node.querySelectorAll) {
+        node.querySelectorAll('a[href]').forEach(link => link.setAttribute('target', '_blank'));
+      }
+    };
+
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => {
+          applyTarget(node);
+        });
+      });
+    });
+
+    observer.observe(document.body, {childList: true, subtree: true});
   </script>
   <script>
     // Lead to specific sections by sharing a link in the style of <base url>/#<div id>
