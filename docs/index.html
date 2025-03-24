@@ -214,32 +214,34 @@ myself from the start?:
   <script>
     document.addEventListener('alpine:init', () => {
       // For "pv" section, where a player name is added to the base url/site link
-      Alpine.data('linkData', () => ({
-        name: getCookie('preferredUsername') || '',
-        isNameSet: false,
-        links: [
-          {name: 'Minecraft Profile viewer (NameMC)', url: 'https://de.namemc.com/profile/'},
-          /* For the record, this is weasling around an issue a bit. The actual
-          nadeshiko url has /player/<ign>/network as its path, and thankfully
-          the link corrects itself; but ideally, our logic here would be able to
-          insert the name at the correct position, and not just append it to an
-          existing string… */
-          {name: 'Hypixel Network stats (nadeshiko.io)', url: 'https://nadeshiko.io/player/'},
-          {name: 'Hypixel Network stats (Plancke)', url: 'https://plancke.io/hypixel/player/stats/'},
-          {name: 'Hypixel Network stats (Forums)', url: 'https://hypixel.net/player/'},
-          {name: 'Skyblock Profile stats (SkyCrypt)', url: 'https://sky.shiiyu.moe/stats/'},
-          {name: 'Skyblock Profile stats (stats.tem.cx)', url: 'https://stats.tem.cx/player/'},
-          {name: 'Farming Weight & Stats (elitebot)', url: 'https://elitebot.dev/@'},
-          {name: 'Plancke Hypixel Guild viewer', url: 'https://plancke.io/hypixel/guild/player/'}
-        ],
-        updateLinks() {
-          this.name = this.name.trim();
-
-          this.isNameSet = this.name !== '';
-          this.$refs.playerName.innerText = this.name;
-          setNamePreferenceCookie(this.name);
-        }
-      }));
+      Alpine.data('linkData', () => {
+        const savedName = getCookie('preferredUsername') || '';
+        return {
+          name: savedName,
+          isNameSet: savedName.trim() !== '',
+          links: [
+            {name: 'Minecraft Profile viewer (NameMC)', url: 'https://de.namemc.com/profile/'},
+            /* For the record, this is weasling around an issue a bit. The actual
+            nadeshiko url has /player/<ign>/network as its path, and thankfully
+            the link corrects itself; but ideally, our logic here would be able to
+            insert the name at the correct position, and not just append it to an
+            existing string… */
+            {name: 'Hypixel Network stats (nadeshiko.io)', url: 'https://nadeshiko.io/player/'},
+            {name: 'Hypixel Network stats (Plancke)', url: 'https://plancke.io/hypixel/player/stats/'},
+            {name: 'Hypixel Network stats (Forums)', url: 'https://hypixel.net/player/'},
+            {name: 'Skyblock Profile stats (SkyCrypt)', url: 'https://sky.shiiyu.moe/stats/'},
+            {name: 'Skyblock Profile stats (stats.tem.cx)', url: 'https://stats.tem.cx/player/'},
+            {name: 'Farming Weight & Stats (elitebot)', url: 'https://elitebot.dev/@'},
+            {name: 'Plancke Hypixel Guild viewer', url: 'https://plancke.io/hypixel/guild/player/'}
+          ],
+          updateLinks() {
+            this.name = this.name.trim();
+            this.isNameSet = this.name !== '';
+            this.$refs.playerName.innerText = this.name;
+            setNamePreferenceCookie(this.name);
+          }
+        };
+      });
     });
   </script>
 </body>
