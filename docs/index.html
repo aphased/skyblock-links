@@ -225,7 +225,8 @@ myself from the start?:
             nadeshiko url has /player/<ign>/network as its path, and thankfully
             the link corrects itself; but ideally, our logic here would be able to
             insert the name at the correct position, and not just append it to an
-            existing string… */
+            existing string…
+            Also see the corresponding logic above: `link.url + name.trim()` */
             {name: 'Hypixel Network stats (nadeshiko.io)', url: 'https://nadeshiko.io/player/'},
             {name: 'Hypixel Network stats (Plancke)', url: 'https://plancke.io/hypixel/player/stats/'},
             {name: 'Hypixel Network stats (Forums)', url: 'https://hypixel.net/player/'},
