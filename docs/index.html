@@ -78,7 +78,8 @@ myself from the start?:
       <template x-for="(link, index) in links" :key="index">
         <li>
           <a :href="isNameSet && name.trim() !== '' ? link.url + name.trim() : '#'"
-            :class="{ 'invalid-link': !isNameSet && name.trim() === '' }" <span x-text="link.name"></span>
+            :class="{ 'invalid-link': !isNameSet && name.trim() === '' }">
+            <span x-text="link.name"></span>
           </a>
         </li>
       </template>
