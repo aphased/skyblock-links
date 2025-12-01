@@ -135,8 +135,9 @@ myself from the start?:
       </template>
       <li><a href="https://soopy.dev/stathistory">Soopy Stat History Tracker</a></li>
       <li><a href="https://soopy.dev/networth">Soopy Player Leaderboard</a> (networth and level)</li>
-        <!-- TODO: don't hard-code this onto my own guild… -->
+      <!-- TODO: don't hard-code this onto my own guild… -->
       <li><a href="https://skykings.net/leaderboard/TheElements">Guild Leaderboard</a></li>
+      <li><a href="https://hytrack.me/SKYBLOCK/">Skyblock player counts by island type</a></li>
     </ul>
   </details>
 
@@ -147,6 +148,9 @@ myself from the start?:
       <li><a href="https://hypixel.net/rules">Hypixel rules (has links to all categories)</a></li>
       <li><a href="https://sbmw.ca/mod-lists/skyblock-mod-list/">SkyBlock Mod List</a></li>
       <li><a href="https://status.hypixel.net/history">Hypixel Status (incident history)</a></li>
+      <li><a
+          href="https://docs.google.com/spreadsheets/d/1ZpvFgCJZkb8zOC4b-DsZil45G8ZQYPhp618S83cwD1U/edit?gid=0#gid=0">
+          kix0n's Dungeons Spreadsheet</a> (attribute shards relevant to catacombs stats)</li>
     </ul>
   </details>
 
@@ -159,17 +163,20 @@ myself from the start?:
       <li><a href="https://hypixel.inventivetalent.org/skyblock-newyear-timer/">New Year's Event Timer</a></li>
       <li><a href="https://account.xbox.com/en-us/Settings?rtc=1&activetab=main:privilegetab">Microsoft Disable
           Multiplayer</a> (in case of ever getting ratted)</li>
-      <li><a href="https://account.live.com/proofs%2FManage%2Fadditional?refd=account.live.com&refp=changepassword">Microsoft Change Account Password</a></li>
+      <li><a
+          href="https://account.live.com/proofs%2FManage%2Fadditional?refd=account.live.com&refp=changepassword">Microsoft
+          Change Account Password</a></li>
     </ul>
-    <ul>Fun zone
-        <li><a href="https://skykings.net/geoguesser">Hypixel Skyblock GeoGuesser</a></li>
+    Fun zone:
+    <ul>
+      <li><a href="https://skykings.net/geoguesser">Hypixel Skyblock GeoGuesser</a></li>
     </ul>
   </details>
 
   <details open id="bingo">
     <summary>Bingo!</summary>
     <ul>
-      <li><a href="https://wiki.hypixel.net/Bingo">Gamemode explanation</a> on
+      <li><a href="https://wiki.hypixel.net/Bingo">Game-mode explanation</a> on
         the Hypixel wiki</li>
       <li><a href="https://hypixel.net/members/indigopolecat.3270837/#recent-content">
           IndigoPolecat on the Hypixel Forums</a>
@@ -281,6 +288,15 @@ myself from the start?:
             the link corrects itself; but ideally, our logic here would be able to
             insert the name at the correct position, and not just append it to an
             existing string…
+            TODO: implement fix like this?
+            ```js
+            function buildUrl(link, playerName) {
+              if (link.name.includes('nadeshiko')) {
+                return `https://nadeshiko.io/player/${playerName}/network`;
+              }
+              return link.url + playerName;
+            }
+            ```
             Also see the corresponding logic above: `link.url + name.trim()` */
             {name: 'Hypixel Network stats (nadeshiko.io)', url: 'https://nadeshiko.io/player/'},
             {name: 'Hypixel Network stats (Plancke)', url: 'https://plancke.io/hypixel/player/stats/'},
