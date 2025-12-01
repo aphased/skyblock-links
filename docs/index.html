@@ -13,6 +13,7 @@
   <meta property="og:description" content="A collection of Skyblock-related weblinks">
   <!-- <meta property="og:description" content="A curated collection of Skyblock-related weblinks: forums, profile viewers, wikis, tools, utilities, and Bingo resources for Hypixel Skyblock players."> -->
   <meta property="og:type" content="website">
+  <!-- potential TODO: come up with something different from the page title for this field? -->
   <meta property="og:site_name" content="Skyblock links">
   <meta property="og:locale" content="en_US">
   <meta property="og:url" content="https://aphased.github.io/skyblock-links">
@@ -54,6 +55,13 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
+    @media (prefers-color-scheme: dark) {
+      #sb-date-container {
+        background: rgba(26, 32, 44, 0.9);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+    }
+
     @media (max-width: 768px) {
       #sb-date-container {
         position: fixed;
@@ -67,6 +75,13 @@
         text-align: right;
         z-index: 1000;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    @media (max-width: 768px) and (prefers-color-scheme: dark) {
+      #sb-date-container {
+        background: rgba(26, 32, 44, 0.9);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       }
     }
   </style>
