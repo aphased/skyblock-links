@@ -25,6 +25,35 @@
       /* "grayed out" red: */
       color: #ffcccc;
     }
+
+    #sb-date-container {
+      position: fixed;
+      top: 100px;
+      right: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      text-align: right;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      #sb-date-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        top: auto;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 16px;
+        text-align: right;
+        z-index: 1000;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+    }
   </style>
 
   <!-- TODO: a runthrough of the https://realfavicongenerator.net? -->
@@ -48,6 +77,12 @@ myself from the start?:
 -->
 
 <body x-data="linkData()">
+  <div id="sb-date-container">
+    In-game time:
+    <div id="sbDate"></div>
+    <div id="sbTime"></div>
+  </div>
+
   <h1>Skyblock-related links!</h1>
 
   <p>
@@ -249,6 +284,55 @@ myself from the start?:
         };
       });
     });
+  </script>
+  <script>
+    // Taken straight from view-source:https://hypixel.net/categories/skyblock.194/
+    function currentSbDate() {
+      var sbMonths = [
+        "Early Spring",
+        "Spring",
+        "Late Spring",
+        "Early Summer",
+        "Summer",
+        "Late Summer",
+        "Early Autumn",
+        "Autumn",
+        "Late Autumn",
+        "Early Winter",
+        "Winter",
+        "Late Winter",
+      ];
+      var date = new Date();
+      var curEpoch = date.getTime();
+      var sbPoch = curEpoch - 1560275700000;
+      var sbYear = Math.floor(sbPoch / 446400000) + 1;
+      var sbMonth = Math.floor(sbPoch / 37200000) % 12;
+      var sbDay = Math.floor(sbPoch / 1200000) % 31;
+      sbDay = ordinal(sbDay + 1);
+      var sbHour = Math.floor(sbPoch / 50000) % 24;
+      var sbMinute = Math.floor(6 * sbPoch / 50000) % 6;
+
+      var sbCurDate = sbDay + " of " + sbMonths[sbMonth] + ", Year " + sbYear;
+      var sbCurTime = ampm(sbHour, sbMinute);
+      document.getElementById("sbDate").innerHTML = sbCurDate;
+      document.getElementById("sbTime").innerHTML = sbCurTime;
+      setTimeout(currentSbDate, 5000);
+    }
+    function ordinal(n) {
+      var s = ["th", "st", "nd", "rd"];
+      var v = n % 100;
+      return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    }
+    function ampm(h, m) {
+      var s = ["am", "pm"];
+      var suffix = s[Math.floor(h / 12)];
+      h = h % 12;
+      if (h == 0) {
+        h = 12;
+      }
+      return h + ":" + m + "0" + suffix;
+    }
+    currentSbDate();
   </script>
 </body>
 
